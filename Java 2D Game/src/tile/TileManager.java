@@ -19,6 +19,7 @@ public class TileManager {
 	GamePanel gp;
 	public Tile[] Tile;
 	public int mapTileNum[][];
+	public int[][] seedsPlanted;
 	
 	public TileManager(GamePanel gp) {
 		
@@ -27,6 +28,7 @@ public class TileManager {
 		
 		Tile = new Tile[10]; 
 		mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
+		seedsPlanted = new int[gp.maxWorldCol][gp.maxWorldRow];
 		getTileImage();
 		loadMap("/maps/world01.txt");
 	}

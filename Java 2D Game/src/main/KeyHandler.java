@@ -125,17 +125,30 @@ public class KeyHandler implements KeyListener {
 			}
 			if (code == KeyEvent.VK_K) {
 			    // Get the tile index corresponding to the player's position
-			    int playerTileX = gp.Player.worldX / gp.tileSize;
-			    int playerTileY = gp.Player.worldY / gp.tileSize;
+				int playerTileX = (gp.Player.worldX + gp.tileSize / 2) / gp.tileSize;
+				int playerTileY = (gp.Player.worldY + gp.tileSize / 2) / gp.tileSize;
 			    
-			    gp.Player.placeBlock(6);
 
 			    // Check if the tile is a dirt tile
-			    if (gp.tileM.mapTileNum[playerTileX][playerTileY] == 6) {
+			    if (gp.tileM.mapTileNum[playerTileX][playerTileY] == 6 && gp.tileM.seedsPlanted[playerTileX][playerTileY] == 0) {
 			        // Create a seed object at the player's position
-			    	
-			        gp.aSetter.setSeedObject(0, gp.Player.worldX, gp.Player.worldY);
+			    	if(gp.Player.seedsPlanted < 12) {
+			    		int seedWorldX = playerTileX * gp.tileSize + gp.tileSize / 2 - gp.tileSize / 2;
+			    		int seedWorldY = playerTileY * gp.tileSize + gp.tileSize / 2 - gp.tileSize / 2;
+			    		gp.aSetter.setSeedObject(gp.Player.seedsPlanted, seedWorldX, seedWorldY);
+				        //gp.aSetter.setSeedObject(gp.Player.seedsPlanted, gp.Player.worldX, gp.Player.worldY);  // per plant seedsPlanted 1 omhoog. en we hebben steeds +1 nodig voor nieuwe plant object in object list.
+				        gp.Player.seedsPlanted++;
+				        System.out.println("Seed planted!");
+				        
+				     // Mark the tile as having a seed planted
+				        gp.tileM.seedsPlanted[playerTileX][playerTileY] = 1;
+			    	}
+			    	System.out.println("Reached maximum capacity of seeds planted!\n");
 			        
+			    }
+			    
+			    else {
+			    System.out.println("Not Tiled dirt or allready occupied!");
 			    }
 			}
 			}

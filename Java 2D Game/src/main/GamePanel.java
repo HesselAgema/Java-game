@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 import entity.Entity;
+import entity.Inventory;
 import entity.Player;
 import object.SuperObject;
 import tile.TileManager;
@@ -42,8 +43,11 @@ public class GamePanel extends JPanel implements Runnable {
 	Sound se = new Sound();
 	public CollisionChecker cChecker = new CollisionChecker(this);
 	public AssetSetter aSetter = new AssetSetter(this);
-	public UI ui = new UI(this);
 	Thread gameThread;
+    public Inventory inventory;
+    public UI ui;
+
+
 	
 
 	
@@ -68,7 +72,8 @@ public class GamePanel extends JPanel implements Runnable {
 		this.setDoubleBuffered(true);
 		this.addKeyListener(keyH);
 		this.setFocusable(true);
-		
+		inventory = new Inventory();
+        ui = new UI(this, inventory);		
 		
 	}
 	
@@ -130,6 +135,13 @@ public class GamePanel extends JPanel implements Runnable {
 		//PLAYER	
 		Player.update();
 		
+		// OBJECTS
+        for (int i = 0; i < obj.length; i++) {
+            if (obj[i] != null) {
+                obj[i].update();
+            }
+        }
+        
 		// NPC
 		for(int i = 0 ; i < npc.length; i++) {
 			if(npc[i] != null) {

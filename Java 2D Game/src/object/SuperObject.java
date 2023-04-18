@@ -38,4 +38,10 @@ public class SuperObject {
 		
 		
 	}
+	
+	public void update() {
+		
+	    // Empty method to be overridden by subclasses
+
+	}
 }

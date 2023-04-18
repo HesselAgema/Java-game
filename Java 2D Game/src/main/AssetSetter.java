@@ -7,6 +7,7 @@ import object.OBJ_door;
 import object.OBJ_hamburger;
 import object.OBJ_key;
 import object.OBJ_seed;
+import object.OBJ_sprout;
 
 public class AssetSetter {
 
@@ -26,9 +27,12 @@ public class AssetSetter {
 	}
 	
 	public void setSeedObject(int index, int worldX, int worldY) {
-	    gp.obj[index] = new OBJ_seed(gp, worldX, worldY);
+	    gp.obj[index] = new OBJ_seed(gp, worldX, worldY, this);
 	}
 	
+	public void setSproutObject(int index, int worldX, int worldY) {
+	    gp.obj[index] = new OBJ_sprout(gp, worldX, worldY);
+	}
 	public void setNPC() {
 		gp.npc[0] = new NPC_OldMan(gp);
 		gp.npc[0].worldX = gp.tileSize*21;

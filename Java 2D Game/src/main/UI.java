@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
 
+import entity.Inventory;
 import object.OBJ_hamburger;
 import object.OBJ_key;
 
@@ -15,6 +16,8 @@ public class UI {
 
 	GamePanel gp;
 	Graphics2D g2;
+    Inventory inventory; // Add this line
+
 	Font Arial_20 = new Font("Arial", Font.PLAIN, 20);
 	Font Arial_30 = new Font("Arial", Font.PLAIN, 30);
 	Font Arial_40 = new Font("Arial", Font.PLAIN, 40);
@@ -29,16 +32,26 @@ public class UI {
 	public int messageCounter = 0;
 	public boolean gameFinished = false;
 	public String currentDialogue = "";
-	public int commandNum = 0;
+	public int currentMenuSelection = 0;
 	public int titleScreenState ; // first title screen
+	public int flowerCounter = 0;
+
 	
 	
 	
-	public UI(GamePanel gp) {
+	public UI(GamePanel gp, Inventory inventory) {
 		this.gp = gp;
-	
+		this.inventory = inventory;
+	    System.out.println("UI Constructor - Inventory: " + this.inventory);
+
 	}
 	
+	
+
+	
+
+
+
 	public void showMessage(String text) {
 		message = text;
 		messageOn = true;
@@ -58,7 +71,7 @@ public class UI {
 		
 		// PLAY STATE
 		if(gp.gameState == gp.playState) {
-			// do playstuff
+	        drawFlowerCounter(g2);
 		}
 		
 		// PAUSE STATE
@@ -104,7 +117,7 @@ public class UI {
 			x = getXforCenteredText(text);
 			y += gp.tileSize*4;
 			g2.drawString(text, x, y);
-			if(commandNum == 0) {
+			if(currentMenuSelection == 0) {
 				g2.drawString(">", x - gp.tileSize, y);
 			}
 			
@@ -113,7 +126,7 @@ public class UI {
 			x = getXforCenteredText(text);
 			y += gp.tileSize;
 			g2.drawString(text, x, y);
-			if(commandNum == 1) {
+			if(currentMenuSelection == 1) {
 				g2.drawString(">", x - gp.tileSize, y);
 			}
 			
@@ -121,7 +134,7 @@ public class UI {
 			x = getXforCenteredText(text);
 			y += gp.tileSize;
 			g2.drawString(text, x, y);
-			if(commandNum == 2) {
+			if(currentMenuSelection == 2) {
 				g2.drawString(">", x - gp.tileSize, y);
 			}
 		}
@@ -140,14 +153,14 @@ public class UI {
 			x = getXforCenteredText(text);	
 			y += gp.tileSize*3;
 			g2.drawString(text, x, y);
-			if(commandNum == 0) {
+			if(currentMenuSelection == 0) {
 				g2.drawString(">", x-gp.tileSize, y);
 			}
 			text = "Farmer";
 			x = getXforCenteredText(text);
 			y += gp.tileSize;
 			g2.drawString(text, x, y);
-			if(commandNum == 1) {
+			if(currentMenuSelection == 1) {
 				g2.drawString(">", x-gp.tileSize, y);
 			}
 			
@@ -155,7 +168,7 @@ public class UI {
 			x = getXforCenteredText(text);
 			y += gp.tileSize*2;
 			g2.drawString(text, x, y);
-			if(commandNum == 2) {
+			if(currentMenuSelection == 2) {
 				g2.drawString(">", x-gp.tileSize, y);
 			}
 		}
@@ -204,6 +217,22 @@ public class UI {
 		g2.drawRoundRect(x+5, y+5, width-10, height-10, 25, 25);
 		
 		
+	}
+	
+	public void drawFlowerCounter(Graphics2D g2) {
+	    int x = 10; // Horizontal position of the flower counter
+	    int y = 30; // Vertical position of the flower counter
+
+	    // Draw a flower icon or image (if you have one)
+	    // g2.drawImage(flowerImage, x, y, flowerImageWidth, flowerImageHeight, null);
+
+	    // If you don't have a flower image, you can use a simple text label for now
+	    g2.setFont(Arial_20);
+	    g2.setColor(Color.WHITE);
+	    g2.drawString("🌼", x, y);
+
+	    // Draw the counter text
+	    g2.drawString(Integer.toString(inventory.getFlowerCount()), x + 30, y);
 	}
 
 	public int getXforCenteredText(String text) {

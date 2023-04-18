@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 
 import main.Sound;
 import main.UtilityTool;
+import object.OBJ_flower;
 import main.GamePanel;
 import main.KeyHandler;
 import tile.Tile;
@@ -18,6 +19,8 @@ public class Player extends Entity {
 
 	KeyHandler keyH;
 	Sound sounds;
+	//public Inventory inventory;
+
 	
 	public final int screenX;
 	public final int screenY;
@@ -28,6 +31,9 @@ public class Player extends Entity {
 		
 		super(gp);// we are calling the constructor of the super class, of this class, and were passing this gp.
 		this.keyH = keyH;
+		
+	    //inventory = new Inventory();
+
 		
 		screenX = gp.screenWidth/2 - (gp.tileSize/2);
 		screenY = gp.screenHeight/2 - (gp.tileSize/2);
@@ -179,6 +185,31 @@ public class Player extends Entity {
 			
 		}
 		gp.keyH.enterPressed = false;
+	}
+	
+	public void harvest() {
+        // Loop through all objects
+        for (int i = 0; i < gp.obj.length; i++) {
+            if (gp.obj[i] != null && gp.obj[i] instanceof OBJ_flower) {
+                // Check if the player is close enough to the flower (e.g., within one tile)
+                if (Math.abs(gp.obj[i].worldX - worldX) <= gp.tileSize &&
+                    Math.abs(gp.obj[i].worldY - worldY) <= gp.tileSize) {
+                    // Harvest the flower
+                    //inventory.addFlower();
+                    gp.inventory.flowerCount++;
+                    // Remove the flower object (or replace it with an empty space)
+                    gp.obj[i] = null;
+                    int playerTileX = (gp.Player.worldX + gp.tileSize / 2) / gp.tileSize;
+    				int playerTileY = (gp.Player.worldY + gp.tileSize / 2) / gp.tileSize;
+                    gp.tileM.seedsPlanted[playerTileX][playerTileY] = 0;
+                    
+                    // Optional: play a sound effect or show an animation
+                    
+                    // If you want to stop at the first harvested flower, add a break statement
+                    break;
+                }
+            }
+        }
 	}
 	
 	
